@@ -1,0 +1,68 @@
+<script>
+const risultato={
+  "count": 2,
+  "games": [
+    {
+      "id": "b4585647-e1dc-49e8-a2d3-dc3f46f76f21",
+      "name": "Chess Game 1",
+      "ownerId": "de8bcf93-1025-4892-bd26-57bacb92b71f",
+      "players": [
+        {
+          "id": "f74cd081-0bca-4624-9ddb-8aff13d14ea4",
+          "name": "pippo",
+          "joinedAt": "2026-02-24T16:08:46.309Z"
+        },
+        {
+          "id": "9a523b52-1d93-4cdf-82d5-b8d9dbc6d23b",
+          "name": "pippo",
+          "joinedAt": "2026-02-24T16:09:03.438Z"
+        }
+      ],
+      "moves": [
+        {
+          "id": "22072b02-9845-4d6d-9a7f-b84bce2b3416",
+          "playerId": "9a523b52-1d93-4cdf-82d5-b8d9dbc6d23b",
+          "data": {
+            "mossa": "e4"
+          },
+          "timestamp": "2026-02-24T16:37:15.462Z"
+        },
+        {
+          "id": "a53ca1e9-771f-42d8-a671-c55e0bdae2f5",
+          "playerId": "f74cd081-0bca-4624-9ddb-8aff13d14ea4",
+          "data": {
+            "mossa": "e5"
+          },
+          "timestamp": "2026-02-24T16:37:50.601Z"
+        }
+      ],
+      "status": "active",
+      "createdAt": "2026-02-24T16:05:42.329Z",
+      "updatedAt": "2026-02-24T16:37:50.601Z"
+    },
+    {
+      "id": "0b0e9d72-4ab2-4d70-9699-dde2eaea50b7",
+      "name": "bellissimo",
+      "ownerId": "de8bcf93-1025-4892-bd26-57bacb92b71f",
+      "players": [
+        {
+          "id": "2a4fc8a1-6f0b-486d-8f01-fcef4ca9d624",
+          "name": "Pinco Pallino",
+          "joinedAt": "2026-03-16T15:36:44.763Z"
+        }
+      ],
+      "moves": [],
+      "status": "active",
+      "createdAt": "2026-03-16T15:35:56.970Z",
+      "updatedAt": "2026-03-16T15:36:44.763Z"
+    }
+  ]
+};
+
+for (let giocatore=0;giocatore<risultato.games.length;giocatore++){
+    console.info(risultato.games[giocatore].name);
+    for (let i=0;i<risultato.games[giocatore].players.length;i++)
+        console.log(i + " -> " +  risultato.games[giocatore].players[i].id);
+
+}
+</script>

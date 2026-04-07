@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dama Online</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="bg-shape bg-shape-1"></div>
+  <div class="bg-shape bg-shape-2"></div>
+
+  <main class="container-fluid ">
+    <header class="mb-2 p-2">
+      <div class="hero">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+          <div>
+            <p class="kicker mb-2">Multiplayer con API REST</p>
+            <h1 class="display-5 fw-bold mb-2">Dama Online</h1>
+            <p class="mb-0 text-secondary-emphasis">Crea una lobby, unisciti come giocatore oppure guarda la partita da spettatore.</p>
+          </div>
+          <!--<div class="text-lg-end">
+            <span class="badge text-bg-light border border-success-subtle px-3 py-2">API key preconfigurata</span>
+          </div>-->
+        </div>
+      </div>
+    </header>
+
+    <section class="row g-2">
+      <div class="col-12 col-xl-3">
+        <div class="panel card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <h2 class="h4 mb-3">Lobby</h2>
+
+            <form id="createLobbyForm" class="row g-2 mb-4">
+              <div class="col-12">
+                <label for="lobbyName" class="form-label">Nome lobby</label>
+                <input id="lobbyName" class="form-control" maxlength="60" placeholder="Es. Dama del venerdi" required>
+              </div>
+              <div class="col-12">
+                <button class="btn btn-success w-100" type="submit">Crea lobby</button>
+              </div>
+            </form>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="h6 m-0">Elenco lobby</h3>
+              <button id="refreshLobbiesBtn" class="btn btn-sm btn-outline-secondary" type="button">Aggiorna</button>
+            </div>
+            <div id="lobbyList" class="vstack gap-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-9">
+        <div class="panel card border-0 shadow-sm mb-2">
+          <div class="card-body d-flex flex-column flex-lg-row justify-content-between gap-3">
+            <div>
+              <h2 class="h4 mb-1">Partita</h2>
+              <p id="activeLobbyTitle" class="mb-2 text-secondary">Nessuna lobby selezionata</p>
+              <div id="statusBadgeWrap"></div>
+            </div>
+            <form id="joinForm" class="join-form row g-2 align-items-end">
+              <div class="col-12 col-md">
+                <label for="nickname" class="form-label mb-1">Nickname (giocatore o spettatore)</label>
+                <input id="nickname" class="form-control" maxlength="25" placeholder="Il tuo nome">
+              </div>
+              <div class="col-12 col-md-auto">
+                <button id="joinBtn" class="btn btn-primary w-100" type="submit" disabled>Aggiungiti alla partita</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="row g-2 h-100 h-80">
+          <div class="col-12 col-xl-6 col-lg-8">
+            <div class="panel h-100 card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="h5 m-0">Scacchiera</h3>
+                  <span id="turnInfo" class="small text-secondary">-</span>
+                </div>
+                <div id="board" class="board" aria-label="Scacchiera dama"></div>
+              </div>
+            </div>
+
+            
+          </div>
+
+          <div class="col-12 col-xl-3 col-lg-4">
+            <div class="panel card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <h3 class="h5 mb-3">Giocatori e mosse</h3>
+                <div id="playerList" class="mb-3"></div>
+                <hr>
+                <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                  <button id="prevMoveBtn" class="btn btn-sm btn-outline-secondary" type="button" disabled>&larr; Indietro</button>
+                  <span id="replayInfo" class="small text-secondary">Live</span>
+                  <button id="nextMoveBtn" class="btn btn-sm btn-outline-secondary" type="button" disabled>Avanti &rarr;</button>
+                </div>
+                <button id="liveBtn" class="btn btn-sm btn-outline-success w-100 mb-3" type="button" disabled>Torna alla posizione finale</button>
+                <ol id="moveList" class="move-list mb-3"></ol>
+              </div>
+            </div>
+          </div>
+          <div class="panel card border-0 shadow-sm col-12 col-xl-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+                  <h4 class="h6 m-0">Chat partita</h4>
+                  <span id="chatPrivateBadge" class="badge text-bg-danger d-none">Nuovi privati: 0</span>
+                </div>
+                <div class="mb-2">
+                  <label for="chatFilter" class="form-label mb-1">Filtro chat</label>
+                  <select id="chatFilter" class="form-select form-select-sm">
+                    <option value="all">Tutti</option>
+                    <option value="public">Solo pubblici</option>
+                    <option value="private">Solo privati</option>
+                  </select>
+                </div>
+                <div id="chatList" class="chat-list mb-3" aria-live="polite">
+                  <p class="small text-secondary m-0">Nessun messaggio.</p>
+                </div>
+                <form id="chatForm" class="vstack gap-2">
+                  <div>
+                    <label for="chatRecipient" class="form-label mb-1">Destinatario</label>
+                    <select id="chatRecipient" class="form-select form-select-sm">
+                      <option value="__all__">Tutti i presenti</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="chatInput" class="form-label mb-1">Messaggio</label>
+                    <textarea id="chatInput" class="form-control form-control-sm" rows="2" maxlength="240" placeholder="Scrivi un messaggio..."></textarea>
+                  </div>
+                  <button id="chatSendBtn" class="btn btn-sm btn-primary" type="submit" disabled>Invia messaggio</button>
+                </form>
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!--<div id="toastWrap" class="toast-container position-fixed bottom-0 end-0 p-3"></div>-->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+    </head>
+
+    <body>
+        <header>
+            <!-- place navbar here -->
+        </header>
+        <main>
+            <div class="row">
+            <div class="panel col-6 alert alert-success" id="partite">
+
+            </div>
+<div class="panel col-6 alert alert-success" id="gioco">
+<img src="./sfondo.jfif" alt="immagine di sfondo del gioco">
+            </div>
+            </div>
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+function aggiungiPlayer(partita){
+alert("ciao "+partita.name);
+}
+
+    
+async function prendiNomiGiochi() {
+const myHeaders = new Headers();
+    myHeaders.append("X-API-Key", "3cf54f7a-8887-44c5-8739-75116039b698341d0937019d448d8641d2d18aafb5e9");
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+    const risposta= await fetch("https://fluffy-sniffle-x9r9jvjx76g36jxr-3000.app.github.dev/games", requestOptions);
+    const risultato=await risposta.json();
+
+
+        console.log(risultato);
+        const partite=document.getElementById("partite");
+        for (let i=0; i<risultato.count;i++){
+            const element=risultato.games[i];
+            //if(element.players.length<2)
+            {
+            const game=document.createElement("div");
+            game.classList.add("alert");
+            game.classList.add("alert-warning");
+            game.innerText=element.name;
+            game.onclick=aggiungiPlayer.bind(event,element);
+            //game.addEventListener('click', aggiungiPlayer.bind(event,"uno"));
+            partite.appendChild(game);
+            }
+        }
+        /*risultato.games.forEach(element => {
+            
+        });*/
+  }
+
+
+const gioco={name:"ciao",key:"12345"}
+localStorage.setItem("partita",JSON.stringify(gioco));
+location.href="tempo.html";
+
+
+</script>
+<style>
+    #gioco{
+        display: none;
+    }
+</style>
+    </body>
+</html>
+
+
