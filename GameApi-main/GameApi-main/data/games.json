@@ -9532,5 +9532,15 @@
     "status": "active",
     "createdAt": "2026-04-07T16:09:41.573Z",
     "updatedAt": "2026-04-07T16:10:24.800Z"
+  },
+  {
+    "id": "5dce8a1e-8995-4871-aa61-23c7741853e3",
+    "name": "ciao",
+    "ownerId": "e8a2bcdd-5f0a-4053-bad6-af542abf6164",
+    "players": [],
+    "moves": [],
+    "status": "active",
+    "createdAt": "2026-04-08T15:25:25.327Z",
+    "updatedAt": "2026-04-08T15:25:25.327Z"
   }
 ]

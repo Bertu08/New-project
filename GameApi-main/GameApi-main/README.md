@@ -51,3 +51,6 @@ curl -X POST http://localhost:3000/games \
 	-d '{"name":"Chess Game 1"}'
 ```
 
+per farlo partire 
+npm run dev
+http://localhost:3000/frontend/index.html
