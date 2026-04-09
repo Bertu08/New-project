@@ -637,7 +637,9 @@ function playerColorById(playerId) {
 
 function setJoinedPlayer(lobbyId, playerId, nickname) {
   state.joinedPlayersByLobby[lobbyId] = { playerId, nickname };
-  localStorage.setItem('ludoJoinedPlayers', JSON.stringify(state.joinedPlayersByLobby));
+  const data = JSON.stringify(state.joinedPlayersByLobby);
+  try { localStorage.setItem('ludoJoinedPlayers', data); } catch {}
+  try { sessionStorage.setItem('ludoJoinedPlayers', data); } catch {}
 }
 
 function restoreJoinedPlayerByNickname() {
@@ -656,7 +658,8 @@ function restoreJoinedPlayerByNickname() {
 
 function loadJoinedPlayers() {
   try {
-    const raw = localStorage.getItem('ludoJoinedPlayers');
+    const raw = localStorage.getItem('ludoJoinedPlayers') 
+              ?? sessionStorage.getItem('ludoJoinedPlayers');
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
