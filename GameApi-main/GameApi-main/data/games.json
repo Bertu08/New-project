@@ -9900,5 +9900,235 @@
     "status": "active",
     "createdAt": "2026-04-09T09:50:14.532Z",
     "updatedAt": "2026-04-09T10:02:32.335Z"
+  },
+  {
+    "id": "c790d527-39b3-45f7-a473-1d27e04f41cc",
+    "name": "INTERROGAZIONE",
+    "ownerId": "e8a2bcdd-5f0a-4053-bad6-af542abf6164",
+    "players": [
+      {
+        "id": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "name": "prof",
+        "joinedAt": "2026-04-16T09:11:22.127Z"
+      },
+      {
+        "id": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "name": "Ali",
+        "joinedAt": "2026-04-16T09:11:38.719Z"
+      }
+    ],
+    "moves": [
+      {
+        "id": "fe9a6717-3ce4-42f0-8fff-a0f2c71468d3",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "green",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:26.599Z"
+      },
+      {
+        "id": "cd975833-13aa-4315-9511-03d7d4fefa15",
+        "playerId": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:36.833Z"
+      },
+      {
+        "id": "67b691e7-ace6-42f3-8b46-60307920974d",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "green",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:39.283Z"
+      },
+      {
+        "id": "f29bc55f-4083-43b1-8201-d76695473749",
+        "playerId": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "data": {
+          "type": "turn",
+          "roll": 4,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:41.461Z"
+      },
+      {
+        "id": "5c6f6446-0f3f-4f74-b5ad-e5b417dc9a76",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 4,
+          "color": "green",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:43.358Z"
+      },
+      {
+        "id": "cebf5a13-421f-4fc4-819b-5ba3b5903849",
+        "playerId": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:47.498Z"
+      },
+      {
+        "id": "222d65aa-8432-4c44-8a4a-c43e52b1a5f9",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-16T10:30:51.129Z"
+      },
+      {
+        "id": "0824ab85-8b67-4248-98e6-78c4059214fd",
+        "playerId": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": -1,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-16T10:30:54.094Z"
+      },
+      {
+        "id": "da0c8cab-db7a-4602-b662-42dc8b8764ea",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "green",
+          "pawnIndex": 0,
+          "from": 0,
+          "to": 3,
+          "enteredBoard": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-16T10:31:00.876Z"
+      },
+      {
+        "id": "75d6d143-d5f2-4304-9af2-ab21fdd3e97e",
+        "playerId": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "red",
+          "pawnIndex": 1,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-16T10:31:06.089Z"
+      },
+      {
+        "id": "b1ea8772-44bb-488d-8c2d-1fcc877fb235",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-16T10:31:21.964Z"
+      },
+      {
+        "id": "8d33751f-97fb-4f76-bc72-1efccc75fcc8",
+        "playerId": "c43b3f92-8795-426a-be5d-730aef82910a",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-16T10:31:27.353Z"
+      },
+      {
+        "id": "729ae438-5f8c-4de9-821c-37978384f884",
+        "playerId": "73141485-66e2-4ed1-91e4-e1c71384de49",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 1,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-16T10:31:32.587Z"
+      }
+    ],
+    "status": "active",
+    "createdAt": "2026-04-16T09:11:09.692Z",
+    "updatedAt": "2026-04-16T10:31:32.587Z"
   }
 ]

@@ -1,5 +1,5 @@
-const API_KEY = '6a19c3d4-5aa0-41c8-98b9-24bf6d45bf88f8bb67b5d85f42c2b92b5553120f3e11';
-const API_BASE = window.location.origin;
+const API_KEY = '589f33bd-e3c4-40eb-9b03-860cadba617b978cc266478a448a8a17a6adb531888c';
+const API_BASE = 'https://fluffy-sniffle-x9r9jvjx76g36jxr-3000.app.github.dev';
 const MAX_PLAYERS = 4;
 const TRACK_LENGTH = 24;
 const PAWNS_PER_PLAYER = 4;
