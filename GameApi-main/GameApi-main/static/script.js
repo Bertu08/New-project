@@ -1,5 +1,5 @@
-const API_KEY = '589f33bd-e3c4-40eb-9b03-860cadba617b978cc266478a448a8a17a6adb531888c';
-const API_BASE = 'https://fluffy-sniffle-x9r9jvjx76g36jxr-3000.app.github.dev';
+const API_KEY = '6b226d88-aae9-4e04-9260-025aef47ea8bb43630f78a87420fb320896feb5028ee';
+const API_BASE = 'http://127.0.0.1:3000';
 const MAX_PLAYERS = 4;
 const TRACK_LENGTH = 24;
 const PAWNS_PER_PLAYER = 4;
@@ -10,11 +10,28 @@ const TRACK_COORDS = [
   [3, 6], [4, 6], [5, 6], [6, 6], [6, 5], [6, 4],
   [6, 3], [6, 2], [6, 1], [6, 0], [5, 0], [4, 0]
 ];
+
+// Posizioni di partenza per ogni colore
+const START_POSITIONS = {
+  green: 0,
+  red: 6,
+  yellow: 12,
+  blue: 18
+};
+
+// Home lane positions per ogni colore (dopo aver completato il giro)
+const HOME_LANE_POSITIONS = {
+  green: [24, 25, 26, 27], // 4 caselle home + centro
+  red: [28, 29, 30, 31],
+  yellow: [32, 33, 34, 35],
+  blue: [36, 37, 38, 39]
+};
+
 const HOME_LANES = {
-  green: [[3, 1], [3, 2]],
-  red: [[1, 3], [2, 3]],
-  yellow: [[5, 3], [4, 3]],
-  blue: [[3, 5], [3, 4]]
+  green: [[3, 1], [3, 2], [3, 3], [2, 3]],
+  red: [[1, 3], [2, 3], [3, 3], [3, 4]],
+  yellow: [[5, 3], [4, 3], [3, 3], [3, 2]],
+  blue: [[3, 5], [3, 4], [3, 3], [4, 3]]
 };
 
 const state = {
@@ -28,7 +45,8 @@ const state = {
   pendingRoll: null,
   movablePawnIndexes: [],
   selectedPawnIndex: null,
-  refreshInFlight: false
+  refreshInFlight: false,
+  syncInterval: null
 };
 
 const ui = {
@@ -49,7 +67,8 @@ const ui = {
   playerCount: document.getElementById('playerCount'),
   playerList: document.getElementById('playerList'),
   moveList: document.getElementById('moveList'),
-  toastWrap: document.getElementById('toastWrap')
+  toastWrap: document.getElementById('toastWrap'),
+  deleteGameBtn: document.getElementById('deleteGameBtn')
 };
 
 bootstrapApp();
@@ -58,6 +77,18 @@ function bootstrapApp() {
   bindEvents();
   renderBoard();
   refreshAll();
+  startSyncInterval();
+}
+
+function startSyncInterval() {
+  if (state.syncInterval) {
+    clearInterval(state.syncInterval);
+  }
+  state.syncInterval = setInterval(() => {
+    if (state.activeLobbyId && !state.refreshInFlight) {
+      refreshActiveLobby(true); // silent refresh
+    }
+  }, 2000);
 }
 
 function bindEvents() {
@@ -66,8 +97,15 @@ function bindEvents() {
   ui.joinForm.addEventListener('submit', onJoinLobby);
   ui.rollDiceBtn.addEventListener('click', onRollDice);
   ui.board.addEventListener('click', onBoardClick);
+  ui.deleteGameBtn.addEventListener('click', onDeleteGame);
+  ui.playerList.addEventListener('click', onPlayerListClick);
   document.addEventListener('visibilitychange', onVisibilityChange);
   window.addEventListener('focus', onWindowFocus);
+  window.addEventListener('beforeunload', () => {
+    if (state.syncInterval) {
+      clearInterval(state.syncInterval);
+    }
+  });
 }
 
 async function onCreateLobby(event) {
@@ -117,7 +155,7 @@ async function onJoinLobby(event) {
 
   try {
     if (state.players.length >= MAX_PLAYERS) {
-      toast('La lobby e piena', 'warning');
+      toast('La lobby è piena', 'warning');
       return;
     }
 
@@ -143,7 +181,7 @@ async function onRollDice() {
   }
 
   if (!state.activeLobby || state.activeLobby.status === 'terminated') {
-    toast('La partita e terminata', 'warning');
+    toast('La partita è terminata', 'warning');
     return;
   }
 
@@ -154,7 +192,7 @@ async function onRollDice() {
 
   const turn = currentTurnPlayer();
   if (!turn || turn.id !== role.player.id) {
-    toast('Non e il tuo turno', 'warning');
+    toast('Non è il tuo turno', 'warning');
     return;
   }
 
@@ -166,20 +204,23 @@ async function onRollDice() {
   const roll = 1 + Math.floor(Math.random() * 6);
   const pawnPositions = buildPawnPositions();
   const myPawns = pawnPositions[role.player.id] || Array(PAWNS_PER_PLAYER).fill(-1);
-  const movable = getMovablePawnIndexes(myPawns, roll);
+  const movable = getMovablePawnIndexes(myPawns, roll, role.color);
 
   ui.diceValue.textContent = String(roll);
 
   if (!movable.length) {
+    // Nessuna pedina muovibile, passa il turno
     await submitPawnMove(role, roll, 0, true);
     return;
   }
 
   if (movable.length === 1) {
+    // Solo una pedina muovibile, muovila automaticamente
     await submitPawnMove(role, roll, movable[0], false);
     return;
   }
 
+  // Più pedine muovibili, chiedi all'utente di scegliere
   state.pendingRoll = roll;
   state.movablePawnIndexes = movable;
   state.selectedPawnIndex = movable[0];
@@ -204,6 +245,53 @@ async function onBoardClick(event) {
   await submitPawnMove(role, state.pendingRoll, pawnIndex, false);
 }
 
+async function onDeleteGame() {
+  if (!state.activeLobbyId) return;
+  if (!confirm(`Eliminare la partita "${state.activeLobby?.name}"? L'azione è irreversibile.`)) return;
+
+  try {
+    await eliminaGioco(state.activeLobbyId);
+    state.activeLobbyId = null;
+    state.activeLobby = null;
+    state.players = [];
+    state.moves = [];
+    resetPendingSelection();
+    toast('Partita eliminata', 'success');
+    await refreshLobbies();
+    renderAll();
+  } catch (error) {
+    toast(error.message, 'danger');
+  }
+}
+
+async function onDeletePlayer(playerId, playerName) {
+  if (!state.activeLobbyId) return;
+  if (!confirm(`Rimuovere il giocatore "${playerName}" dalla partita?`)) return;
+
+  try {
+    await eliminaUtenteDallaPartita(state.activeLobbyId, playerId);
+
+    const joined = state.joinedPlayersByLobby[state.activeLobbyId];
+    if (joined?.playerId === playerId) {
+      delete state.joinedPlayersByLobby[state.activeLobbyId];
+      const data = JSON.stringify(state.joinedPlayersByLobby);
+      try { localStorage.setItem('ludoJoinedPlayers', data); } catch {}
+      try { sessionStorage.setItem('ludoJoinedPlayers', data); } catch {}
+    }
+
+    toast(`${playerName} rimosso dalla partita`, 'success');
+    await refreshActiveLobby();
+  } catch (error) {
+    toast(error.message, 'danger');
+  }
+}
+
+function onPlayerListClick(event) {
+  const btn = event.target.closest('.delete-player-btn');
+  if (!btn) return;
+  onDeletePlayer(btn.dataset.playerId, btn.dataset.playerName);
+}
+
 async function submitPawnMove(role, roll, pawnIndex, skipped) {
   const pawnPositions = buildPawnPositions();
   const pawns = pawnPositions[role.player.id] || Array(PAWNS_PER_PLAYER).fill(-1);
@@ -211,20 +299,64 @@ async function submitPawnMove(role, roll, pawnIndex, skipped) {
   let nextPos = currentPos;
   let finished = false;
   let enteredBoard = false;
+  let enteredHomeLane = false;
 
   if (!skipped) {
     if (currentPos === -1) {
+      // Pedina in base
       if (roll === 6) {
-        nextPos = 0;
+        nextPos = START_POSITIONS[role.color];
         enteredBoard = true;
       }
-    } else {
-      nextPos = currentPos + roll;
-      if (nextPos > TRACK_LENGTH) {
-        nextPos = currentPos;
-      } else if (nextPos === TRACK_LENGTH) {
-        finished = true;
+    } else if (currentPos >= 0 && currentPos < TRACK_LENGTH) {
+      // Pedina in pista
+      let newPos = currentPos;
+      for (let i = 0; i < roll; i++) {
+        newPos = (newPos + 1) % TRACK_LENGTH;
       }
+      
+      // Verifica se ha completato un giro
+      if (hasCompletedLap(currentPos, newPos, role.color)) {
+        // Calcola di quanto ha superato la posizione di partenza
+        const overshoot = calculateOvershoot(currentPos, roll, role.color);
+        const homeLaneIndex = overshoot - 1;
+        
+        if (homeLaneIndex < 4) {
+          // Entra nella home lane
+          nextPos = HOME_LANE_POSITIONS[role.color][homeLaneIndex];
+          enteredHomeLane = true;
+          if (homeLaneIndex === 3) {
+            finished = true;
+          }
+        } else {
+          // Se supera anche la home lane, rimane alla posizione attuale
+          nextPos = currentPos;
+        }
+      } else {
+        nextPos = newPos;
+      }
+    } else if (currentPos >= 24) {
+      // Pedina già nella home lane
+      const homeLanePositions = HOME_LANE_POSITIONS[role.color];
+      const currentHomeIndex = homeLanePositions.indexOf(currentPos);
+      
+      if (currentHomeIndex !== -1) {
+        const newHomeIndex = currentHomeIndex + roll;
+        if (newHomeIndex < 4) {
+          nextPos = homeLanePositions[newHomeIndex];
+          if (newHomeIndex === 3) {
+            finished = true;
+          }
+        } else {
+          // Non può superare il centro
+          nextPos = currentPos;
+        }
+      }
+    }
+
+    // Verifica cattura pedine avversarie
+    if (!enteredBoard && !finished && nextPos >= 0 && nextPos < TRACK_LENGTH) {
+      await handleCapture(role.player.id, nextPos);
     }
   }
 
@@ -241,6 +373,7 @@ async function submitPawnMove(role, roll, pawnIndex, skipped) {
           from: currentPos,
           to: nextPos,
           enteredBoard,
+          enteredHomeLane,
           finished,
           skipped
         }
@@ -254,18 +387,73 @@ async function submitPawnMove(role, roll, pawnIndex, skipped) {
         method: 'PUT',
         body: JSON.stringify({ status: 'terminated' })
       });
-      toast(`Vince ${role.player.name}!`, 'success');
+      toast(`🎉 ${role.player.name} ha vinto la partita!`, 'success');
     } else if (skipped) {
-      toast(`Hai tirato ${roll}, nessuna pedina muovibile`, 'secondary');
+      toast(`Hai tirato ${roll}, nessuna pedina muovibile.`, 'secondary');
+    } else if (finished) {
+      toast(`🎯 Una pedina ha raggiunto il centro!`, 'success');
     } else if (response?.move?.id) {
       toast(`Hai mosso la pedina ${pawnIndex + 1}`, 'info');
     }
 
+    // Se non è uscito 6 e non siamo in pending, il turno passa
     await refreshActiveLobby();
   } catch (error) {
     resetPendingSelection();
     renderAll();
     toast(error.message, 'danger');
+  }
+}
+
+function hasCompletedLap(currentPos, newPos, color) {
+  const startPos = START_POSITIONS[color];
+  
+  // Se la pedina passa attraverso la posizione di partenza
+  if (currentPos < startPos && newPos >= startPos) {
+    return true;
+  }
+  
+  // Se fa un giro completo (wrap around)
+  if (currentPos > newPos) {
+    // Verifica se ha superato startPos durante il wrap
+    const distanceToStart = (TRACK_LENGTH - currentPos) + startPos;
+    const distanceToNew = (TRACK_LENGTH - currentPos) + newPos;
+    return distanceToStart <= distanceToNew;
+  }
+  
+  return false;
+}
+
+function calculateOvershoot(currentPos, roll, color) {
+  const startPos = START_POSITIONS[color];
+  let steps = 0;
+  let pos = currentPos;
+  
+  for (let i = 0; i < roll; i++) {
+    pos = (pos + 1) % TRACK_LENGTH;
+    if (pos === startPos) {
+      steps = roll - i - 1;
+      break;
+    }
+  }
+  
+  return steps;
+}
+
+async function handleCapture(playerId, position) {
+  const pawnPositions = buildPawnPositions();
+  
+  for (const otherPlayer of state.players) {
+    if (otherPlayer.id === playerId) continue;
+    
+    const otherPawns = pawnPositions[otherPlayer.id] || [];
+    for (let i = 0; i < otherPawns.length; i++) {
+      if (otherPawns[i] === position) {
+        // La pedina viene mangiata e torna alla base
+        toast(`⚔️ Pedina di ${otherPlayer.name} mangiata!`, 'warning');
+        break;
+      }
+    }
   }
 }
 
@@ -292,13 +480,13 @@ async function refreshLobbies() {
 
     if (state.activeLobbyId && !state.lobbies.some(game => game.id === state.activeLobbyId)) {
       state.activeLobbyId = null;
-    state.activeLobby = null;
-    state.players = [];
-    state.moves = [];
-    resetPendingSelection();
-  }
+      state.activeLobby = null;
+      state.players = [];
+      state.moves = [];
+      resetPendingSelection();
+    }
   } catch (error) {
-    toast(error.message, 'danger');
+    console.error('Error refreshing lobbies:', error);
   }
 
   renderLobbies();
@@ -309,7 +497,7 @@ async function openLobby(lobbyId) {
   await refreshActiveLobby();
 }
 
-async function refreshActiveLobby() {
+async function refreshActiveLobby(silent = false) {
   if (!state.activeLobbyId) return;
 
   try {
@@ -319,12 +507,20 @@ async function refreshActiveLobby() {
       apiFetch(`/games/${state.activeLobbyId}/moves`)
     ]);
 
+    const oldMovesLength = state.moves.length;
     state.activeLobby = lobbyRes.game;
     state.players = playersRes.players || [];
     state.moves = sortMovesByTimestamp(movesRes.moves || []).filter(move => move?.data?.type === 'turn');
     restoreJoinedPlayerByNickname();
+    
+    // Se ci sono nuove mosse, resettiamo la selezione pendente
+    if (state.moves.length > oldMovesLength) {
+      resetPendingSelection();
+    }
   } catch (error) {
-    toast(error.message, 'danger');
+    if (!silent) {
+      console.error('Error refreshing active lobby:', error);
+    }
   }
 
   renderAll();
@@ -375,8 +571,11 @@ function renderHeader() {
     ui.rollDiceBtn.disabled = true;
     ui.winnerText.textContent = 'Il primo che raggiunge il centro vince.';
     ui.diceValue.textContent = '-';
+    ui.deleteGameBtn.style.display = 'none';
     return;
   }
+
+  ui.deleteGameBtn.style.display = '';
 
   ui.activeLobbyTitle.textContent = state.activeLobby.name;
   const role = currentRole();
@@ -385,9 +584,9 @@ function renderHeader() {
 
   if (winner) {
     ui.lobbyStatus.textContent = `Partita conclusa. Ha vinto ${winner.name}.`;
-    ui.turnBadge.textContent = 'Partita finita';
+    ui.turnBadge.textContent = '🏆 Partita finita';
     ui.turnBadge.className = 'turn-badge neutral';
-    ui.winnerText.textContent = `${winner.name} ha raggiunto il centro.`;
+    ui.winnerText.textContent = `${winner.name} ha vinto la partita!`;
   } else if (state.players.length < 2) {
     ui.lobbyStatus.textContent = 'In attesa di almeno 2 giocatori.';
     ui.turnBadge.textContent = 'Attesa giocatori';
@@ -400,7 +599,7 @@ function renderHeader() {
     ui.turnBadge.className = `turn-badge ${color}`;
     ui.winnerText.textContent = role.kind === 'player'
       ? state.pendingRoll !== null
-        ? `Hai tirato ${state.pendingRoll}: scegli una delle tue 4 pedine.`
+        ? `Hai tirato ${state.pendingRoll}: scegli una delle tue pedine.`
         : `Tu giochi con il colore ${role.color}.`
       : 'Osserva l\'andamento della partita in tempo reale.';
   }
@@ -424,11 +623,12 @@ function renderPlayers() {
     const joined = role.kind === 'player' && role.player.id === player.id;
     const pawns = pawnPositions[player.id] || Array(PAWNS_PER_PLAYER).fill(-1);
     const inBase = pawns.filter(pos => pos < 0).length;
-    const inCenter = pawns.filter(pos => pos >= TRACK_LENGTH).length;
-    const onTrack = pawns.filter(pos => pos >= 0 && pos < TRACK_LENGTH).length;
-    const label = `Base ${inBase} · Pista ${onTrack} · Centro ${inCenter}`;
+    const inCenter = pawns.filter(pos => pos >= 39).length; // 39 è il centro
+    const onTrack = pawns.filter(pos => pos >= 0 && pos < 24).length;
+    const inHomeLane = pawns.filter(pos => pos >= 24 && pos < 39).length;
+    const label = `Base ${inBase} · Pista ${onTrack} · Home ${inHomeLane} · Centro ${inCenter}`;
     const badge = winner?.id === player.id
-      ? '<span class="badge text-bg-success">Vincitore</span>'
+      ? '<span class="badge text-bg-success">🏆 Vincitore</span>'
       : joined
         ? '<span class="badge text-bg-primary">Tu</span>'
         : `<span class="badge text-bg-light">${color}</span>`;
@@ -442,7 +642,12 @@ function renderPlayers() {
             <div class="small text-secondary">${label}</div>
           </div>
         </div>
-        ${badge}
+        <div class="d-flex align-items-center gap-2">
+          ${badge}
+          <button class="btn btn-outline-danger btn-sm delete-player-btn" type="button"
+            data-player-id="${player.id}" data-player-name="${escapeHtml(player.name)}"
+            title="Rimuovi giocatore" aria-label="Rimuovi ${escapeHtml(player.name)}">×</button>
+        </div>
       </div>
     `;
   }).join('');
@@ -454,20 +659,22 @@ function renderMoves() {
     return;
   }
 
-  ui.moveList.innerHTML = state.moves.map(move => {
+  ui.moveList.innerHTML = state.moves.slice(-10).reverse().map(move => {
     const player = state.players.find(item => item.id === move.playerId);
     const data = move.data || {};
     const name = player ? player.name : 'Giocatore';
     const pawnLabel = `pedina ${Number(data.pawnIndex) + 1}`;
     const action = data.skipped
-      ? `ha tirato ${data.roll} ma non poteva muovere nessuna pedina`
+      ? `ha tirato ${data.roll} ma non poteva muovere`
       : data.finished
-        ? `ha tirato ${data.roll} e ha portato la ${pawnLabel} al centro`
+        ? `ha tirato ${data.roll} e ha portato la ${pawnLabel} al centro! 🎯`
         : data.enteredBoard
           ? `ha tirato 6 e ha fatto entrare in pista la ${pawnLabel}`
-          : data.from === data.to
-            ? `ha tirato ${data.roll} ma la ${pawnLabel} resta ferma`
-            : `ha tirato ${data.roll} e ha spostato la ${pawnLabel} alla casella ${Number(data.to) + 1}`;
+          : data.enteredHomeLane
+            ? `ha tirato ${data.roll} e ha portato la ${pawnLabel} nella home lane`
+            : data.from === data.to
+              ? `ha tirato ${data.roll} ma la ${pawnLabel} resta ferma`
+              : `ha tirato ${data.roll} e ha spostato la ${pawnLabel}`;
 
     return `<li><strong>${escapeHtml(name)}</strong> ${action}</li>`;
   }).join('');
@@ -476,6 +683,7 @@ function renderMoves() {
 function renderBoard() {
   const pawnPositions = buildPawnPositions();
   const piecesByCell = new Map();
+  const homeLanePieces = new Map();
   const basePieces = new Map();
   const centerPieces = [];
   const finishedPlayers = [];
@@ -497,7 +705,7 @@ function renderBoard() {
   state.players.forEach((player, index) => {
     const color = PLAYER_COLORS[index] || 'green';
     const pawns = pawnPositions[player.id] || Array(PAWNS_PER_PLAYER).fill(-1);
-    if (pawns.every(position => position >= TRACK_LENGTH)) {
+    if (pawns.every(position => position >= 39)) {
       finishedPlayers.push(player.name);
     }
 
@@ -507,12 +715,16 @@ function renderBoard() {
       const isSelected = currentTurn?.id === player.id && state.selectedPawnIndex === pawnIndex && state.pendingRoll !== null;
       const pieceMarkup = buildPieceMarkup(player.id, pawnIndex, color, movedIds.has(key), currentTurn?.id === player.id, isMovable, isSelected);
 
-      if (position >= TRACK_LENGTH) {
+      if (position >= 39) {
         centerPieces.push(pieceMarkup);
         return;
       }
 
-      if (position >= 0) {
+      if (position >= 24) {
+        const existing = homeLanePieces.get(position) || [];
+        existing.push(pieceMarkup);
+        homeLanePieces.set(position, existing);
+      } else if (position >= 0) {
         const existing = piecesByCell.get(position) || [];
         existing.push(pieceMarkup);
         piecesByCell.set(position, existing);
@@ -525,9 +737,16 @@ function renderBoard() {
   });
 
   const trackMap = new Map(TRACK_COORDS.map((coords, index) => [coords.join(','), index]));
-  const laneMap = new Map();
+  
+  // Mappa per le home lane
+  const homeLaneMap = new Map();
   Object.entries(HOME_LANES).forEach(([color, cells]) => {
-    cells.forEach((coords, index) => laneMap.set(coords.join(','), { color, index }));
+    cells.forEach((coords, index) => {
+      if (index < 3) { // Le prime 3 caselle della home lane
+        const position = HOME_LANE_POSITIONS[color][index];
+        homeLaneMap.set(coords.join(','), { color, position });
+      }
+    });
   });
 
   ui.board.innerHTML = Array.from({ length: 49 }, (_, linearIndex) => {
@@ -555,16 +774,34 @@ function renderBoard() {
       `;
     }
 
-    if (laneMap.has(key)) {
-      const lane = laneMap.get(key);
-      const pieces = basePieces.get(lane.color) || [];
+    if (homeLaneMap.has(key)) {
+      const lane = homeLaneMap.get(key);
+      const pieces = homeLanePieces.get(lane.position) || [];
       return `
         <div class="board-cell home-lane ${lane.color}">
           <div class="piece-stack">
-            ${lane.index === 0 ? `<div class="piece-stack base-grid">${pieces.join('')}</div>` : ''}
+            ${pieces.join('')}
           </div>
         </div>
       `;
+    }
+
+    // Renderizza le basi
+    if ((row === 0 && col === 0) || (row === 0 && col === 1) || (row === 1 && col === 0) || (row === 1 && col === 1)) {
+      const pieces = basePieces.get('green') || [];
+      return `<div class="board-cell empty home-base green"><div class="piece-stack base-grid">${pieces.join('')}</div></div>`;
+    }
+    if ((row === 0 && col === 5) || (row === 0 && col === 6) || (row === 1 && col === 5) || (row === 1 && col === 6)) {
+      const pieces = basePieces.get('red') || [];
+      return `<div class="board-cell empty home-base red"><div class="piece-stack base-grid">${pieces.join('')}</div></div>`;
+    }
+    if ((row === 5 && col === 0) || (row === 5 && col === 1) || (row === 6 && col === 0) || (row === 6 && col === 1)) {
+      const pieces = basePieces.get('yellow') || [];
+      return `<div class="board-cell empty home-base yellow"><div class="piece-stack base-grid">${pieces.join('')}</div></div>`;
+    }
+    if ((row === 5 && col === 5) || (row === 5 && col === 6) || (row === 6 && col === 5) || (row === 6 && col === 6)) {
+      const pieces = basePieces.get('blue') || [];
+      return `<div class="board-cell empty home-base blue"><div class="piece-stack base-grid">${pieces.join('')}</div></div>`;
     }
 
     return '<div class="board-cell empty"></div>';
@@ -587,7 +824,7 @@ function currentTurnPlayer() {
 
 function winnerPlayer() {
   const pawnPositions = buildPawnPositions();
-  return state.players.find(player => (pawnPositions[player.id] || []).every(position => position >= TRACK_LENGTH)) || null;
+  return state.players.find(player => (pawnPositions[player.id] || []).every(position => position >= 39)) || null;
 }
 
 function buildPawnPositions() {
@@ -596,6 +833,7 @@ function buildPawnPositions() {
     positions[player.id] = Array(PAWNS_PER_PLAYER).fill(-1);
   });
 
+  // Tiene traccia dell'ultima posizione di ogni pedina
   for (const move of state.moves) {
     const pawnIndex = Number(move?.data?.pawnIndex);
     if (!Number.isInteger(pawnIndex) || pawnIndex < 0 || pawnIndex >= PAWNS_PER_PLAYER) continue;
@@ -703,18 +941,50 @@ function buildPieceMarkup(playerId, pawnIndex, color, moved, current, canPlay, s
   return `<span class="piece ${color} ${moved ? 'moved' : ''} ${current ? 'current-turn' : ''} ${canPlay ? 'can-play selectable' : ''} ${selected ? 'selected' : ''}" data-player-id="${playerId}" data-piece-index="${pawnIndex}" title="Pedina ${pawnIndex + 1}"></span>`;
 }
 
-function getMovablePawnIndexes(pawns, roll) {
+function getMovablePawnIndexes(pawns, roll, color) {
   const movable = [];
+  
   pawns.forEach((position, index) => {
-    if (position < 0 && roll === 6) {
-      movable.push(index);
+    // Pedina in base
+    if (position < 0) {
+      if (roll === 6) {
+        movable.push(index);
+      }
       return;
     }
 
-    if (position >= 0 && position < TRACK_LENGTH && position + roll <= TRACK_LENGTH) {
-      movable.push(index);
+    // Pedina in pista
+    if (position >= 0 && position < 24) {
+      let newPos = position;
+      for (let i = 0; i < roll; i++) {
+        newPos = (newPos + 1) % 24;
+      }
+      
+      if (hasCompletedLap(position, newPos, color)) {
+        const overshoot = calculateOvershoot(position, roll, color);
+        if (overshoot <= 4) {
+          movable.push(index);
+        }
+      } else {
+        movable.push(index);
+      }
+      return;
+    }
+
+    // Pedina in home lane
+    if (position >= 24 && position < 39) {
+      const homeLanePositions = HOME_LANE_POSITIONS[color];
+      const currentHomeIndex = homeLanePositions.indexOf(position);
+      
+      if (currentHomeIndex !== -1) {
+        const newHomeIndex = currentHomeIndex + roll;
+        if (newHomeIndex < 4) {
+          movable.push(index);
+        }
+      }
     }
   });
+  
   return movable;
 }
 
@@ -740,7 +1010,7 @@ function allPawnsFinishedAfterMove(playerId, pawnIndex, nextPos, skipped) {
   if (!skipped) {
     myPawns[pawnIndex] = nextPos;
   }
-  return myPawns.every(position => position >= TRACK_LENGTH);
+  return myPawns.every(position => position >= 39);
 }
 
 function toast(message, type = 'primary') {
@@ -768,3 +1038,17 @@ const diceObserver = new MutationObserver(() => {
 });
 
 diceObserver.observe(ui.diceValue, { childList: true });
+
+async function eliminaGioco(gameId) {
+  const data = await apiFetch(`/games/${gameId}`, {
+    method: 'DELETE'
+  });
+  return data;
+}
+
+async function eliminaUtenteDallaPartita(gameId, playerId) {
+  const data = await apiFetch(`/games/${gameId}/players/${playerId}`, {
+    method: 'DELETE'
+  });
+  return data;
+}
