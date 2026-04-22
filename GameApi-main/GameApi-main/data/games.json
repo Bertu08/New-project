@@ -10771,10 +10771,708 @@
           "skipped": false
         },
         "timestamp": "2026-04-21T13:44:05.010Z"
+      },
+      {
+        "id": "46f43960-0a29-436e-8db4-449aee2fd01f",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:04:36.343Z"
+      },
+      {
+        "id": "1669a009-d5ac-4395-abda-d9696e6f06db",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 6,
+          "to": 9,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:04:59.355Z"
+      },
+      {
+        "id": "c5a16611-3fe4-4103-aadb-92c07001860e",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "green",
+          "pawnIndex": 1,
+          "from": 3,
+          "to": 8,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:05:29.308Z"
+      },
+      {
+        "id": "37855003-aa3f-410d-96ae-1a39c87aa903",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 9,
+          "to": 11,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:05:33.427Z"
+      },
+      {
+        "id": "a0addc76-e459-4315-8350-cdeae2a8ad73",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": 0,
+          "to": 2,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:05:40.713Z"
+      },
+      {
+        "id": "01c2f30a-9864-406c-a3e2-d802d975756f",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 11,
+          "to": 12,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:07:00.790Z"
+      },
+      {
+        "id": "04cac798-94fa-48aa-a2a2-06677cea6891",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "green",
+          "pawnIndex": 0,
+          "from": 26,
+          "to": 27,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": true,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:07:12.549Z"
+      },
+      {
+        "id": "ef989410-9746-4ac2-83aa-41ff4ee06eaf",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 12,
+          "to": 14,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:07:19.056Z"
+      },
+      {
+        "id": "55a676e6-f3b4-41f6-b4f4-cae213b189f5",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:07:29.134Z"
+      },
+      {
+        "id": "717696be-8825-4b02-8548-b393046c1f90",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 14,
+          "to": 15,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:08:18.855Z"
+      },
+      {
+        "id": "c12de587-b603-42b1-9c57-6ea09f5c0345",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 0,
+          "to": 6,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:08:42.664Z"
+      },
+      {
+        "id": "fee8b6d0-bea1-430e-b7de-f20c1f884712",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 15,
+          "to": 17,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:08:48.680Z"
+      },
+      {
+        "id": "b14b9d7f-8fb1-49ec-bc2a-0dfc4af26320",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 4,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 6,
+          "to": 10,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:08:52.937Z"
+      },
+      {
+        "id": "36d76b5e-c0d5-425e-adfb-d9b4f16025a2",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 4,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 17,
+          "to": 21,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:08:56.144Z"
+      },
+      {
+        "id": "b4fb030e-5281-4ade-9a55-dbe475dd0667",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 10,
+          "to": 15,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:00.512Z"
+      },
+      {
+        "id": "8a39abde-0b33-478f-acef-86479d7ae7fa",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "capture",
+          "roll": 0,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": 2,
+          "to": -1,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false,
+          "captured": true
+        },
+        "timestamp": "2026-04-22T13:09:04.042Z"
+      },
+      {
+        "id": "fd41e0a7-0461-4d1f-a2aa-dae5f279cd9b",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 21,
+          "to": 2,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:04.058Z"
+      },
+      {
+        "id": "e2ce4eda-018b-4c0c-b358-6e60d40360db",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 15,
+          "to": 16,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:09.201Z"
+      },
+      {
+        "id": "ec8a5da3-2d7b-4e81-8b2e-247a5d557905",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 2,
+          "to": 3,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:12.223Z"
+      },
+      {
+        "id": "0c689774-e871-463e-9dd2-4adf84b4edec",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 16,
+          "to": 17,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:15.848Z"
+      },
+      {
+        "id": "50fc5364-0d6d-4419-a7f1-6b9caa485e6c",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 3,
+          "to": 5,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:19.240Z"
+      },
+      {
+        "id": "a1669e4f-9703-4817-876e-f5810f92d6a0",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 17,
+          "to": 23,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:28.368Z"
+      },
+      {
+        "id": "e35b0b16-cc92-4381-9a1c-e43a19d352d7",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 5,
+          "to": 31,
+          "enteredBoard": false,
+          "enteredHomeLane": true,
+          "finished": true,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:32.848Z"
+      },
+      {
+        "id": "9202ece2-2d2d-4e5c-a6dd-d88ad1fc63de",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 23,
+          "to": 24,
+          "enteredBoard": false,
+          "enteredHomeLane": true,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:36.714Z"
+      },
+      {
+        "id": "d2706d70-cceb-4b77-a8e5-a48a9744bd7d",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 31,
+          "to": 31,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-22T13:09:40.281Z"
+      },
+      {
+        "id": "b0a69ad0-a8eb-490a-bb6f-ec76583e30ba",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": -1,
+          "to": 0,
+          "enteredBoard": true,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:09:52.346Z"
+      },
+      {
+        "id": "483987ca-0ef8-48f2-a5e5-2aa9fd630192",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 31,
+          "to": 31,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-22T13:09:55.065Z"
+      },
+      {
+        "id": "29b7dc73-9046-411e-afc6-b2ff51a49d44",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "green",
+          "pawnIndex": 3,
+          "from": 24,
+          "to": 25,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:10:04.137Z"
+      },
+      {
+        "id": "2500e90d-d6bb-4883-ab36-cb245cd2e1d2",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "red",
+          "pawnIndex": 0,
+          "from": 31,
+          "to": 31,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": true
+        },
+        "timestamp": "2026-04-22T13:10:06.576Z"
+      },
+      {
+        "id": "63d57472-9843-490b-b794-2a79bafde500",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "green",
+          "pawnIndex": 1,
+          "from": 8,
+          "to": 13,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:10:21.881Z"
+      },
+      {
+        "id": "23db7754-b108-4740-bb10-21156dabcb40",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "red",
+          "pawnIndex": 3,
+          "from": -1,
+          "to": 6,
+          "enteredBoard": true,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:10:27.561Z"
+      },
+      {
+        "id": "89ac01df-14c6-4680-8681-2599c8cf280b",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 5,
+          "color": "green",
+          "pawnIndex": 1,
+          "from": 13,
+          "to": 18,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:10:34.881Z"
+      },
+      {
+        "id": "b468d6e1-61cc-41b0-afa8-41b8652c55af",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 1,
+          "color": "red",
+          "pawnIndex": 3,
+          "from": 6,
+          "to": 7,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:10:48.662Z"
+      },
+      {
+        "id": "6558e055-69f1-457c-915d-3aba2ce172cb",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 4,
+          "color": "green",
+          "pawnIndex": 1,
+          "from": 18,
+          "to": 22,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:10:52.942Z"
+      },
+      {
+        "id": "f620c302-328e-40bb-bd5e-39e12e049baf",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 4,
+          "color": "red",
+          "pawnIndex": 3,
+          "from": 7,
+          "to": 11,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:11:08.330Z"
+      },
+      {
+        "id": "84b94188-276a-4b37-b936-ce434d3cfea8",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 1,
+          "from": 22,
+          "to": 27,
+          "enteredBoard": false,
+          "enteredHomeLane": true,
+          "finished": true,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:11:11.519Z"
+      },
+      {
+        "id": "76f54275-f65c-4443-81ac-239e57a171cf",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 2,
+          "color": "red",
+          "pawnIndex": 3,
+          "from": 11,
+          "to": 13,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:11:36.470Z"
+      },
+      {
+        "id": "f50548fe-74cd-4d3f-bec3-476c97d13723",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": 0,
+          "to": 6,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:11:39.479Z"
+      },
+      {
+        "id": "de186ff6-da75-494b-8d71-6e9811b8fe0c",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 3,
+          "color": "red",
+          "pawnIndex": 3,
+          "from": 13,
+          "to": 16,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:11:43.034Z"
+      },
+      {
+        "id": "9c3c3085-57e7-44e5-ad80-cacaca814c52",
+        "playerId": "21e62015-ae44-4246-b021-20d7066f35ea",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "green",
+          "pawnIndex": 2,
+          "from": 6,
+          "to": 12,
+          "enteredBoard": false,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:11:56.469Z"
+      },
+      {
+        "id": "54f57741-4e95-4ba3-bb34-1d58181bfa55",
+        "playerId": "756728e4-4960-4c77-92f5-ef9bce6f4ecd",
+        "data": {
+          "type": "turn",
+          "roll": 6,
+          "color": "red",
+          "pawnIndex": 2,
+          "from": -1,
+          "to": 6,
+          "enteredBoard": true,
+          "enteredHomeLane": false,
+          "finished": false,
+          "skipped": false
+        },
+        "timestamp": "2026-04-22T13:12:01.077Z"
       }
     ],
     "status": "active",
     "createdAt": "2026-04-21T13:04:26.291Z",
-    "updatedAt": "2026-04-21T13:44:05.010Z"
+    "updatedAt": "2026-04-22T13:12:01.077Z"
   }
 ]
